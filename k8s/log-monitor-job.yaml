@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-service-logs
+data:
+  service.log: |
+    {"timestamp":"2026-07-23T10:00:00Z","service":"checkout-api","severity":"info","message":"heartbeat ok","latency_ms":42}
+    {"timestamp":"2026-07-23T10:00:10Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=1100ms","latency_ms":1100}
+    {"timestamp":"2026-07-23T10:00:16Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=1250ms","latency_ms":1250}
+    {"timestamp":"2026-07-23T10:00:22Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=990ms","latency_ms":990}
+    {"timestamp":"2026-07-23T10:00:29Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=1425ms","latency_ms":1425}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: distributed-log-monitor
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: monitor
+          image: distributed-log-monitoring:latest
+          imagePullPolicy: IfNotPresent
+          args: ["analyze", "/logs/service.log"]
+          volumeMounts:
+            - name: sample-logs
+              mountPath: /logs
+      volumes:
+        - name: sample-logs
+          configMap:
+            name: sample-service-logs

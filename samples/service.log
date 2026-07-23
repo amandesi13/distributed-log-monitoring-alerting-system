@@ -1,0 +1,10 @@
+{"timestamp":"2026-07-23T10:00:00Z","service":"checkout-api","severity":"info","message":"heartbeat ok","latency_ms":42,"trace_id":"trace-0001"}
+{"timestamp":"2026-07-23T10:00:03Z","service":"payment-worker","severity":"info","message":"payment batch completed","latency_ms":81,"trace_id":"trace-0002"}
+{"timestamp":"2026-07-23T10:00:06Z","service":"inventory-api","severity":"info","message":"stock lookup completed","latency_ms":65,"trace_id":"trace-0003"}
+{"timestamp":"2026-07-23T10:00:10Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=1100ms","latency_ms":1100,"trace_id":"trace-0004"}
+{"timestamp":"2026-07-23T10:00:16Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=1250ms","latency_ms":1250,"trace_id":"trace-0005"}
+{"timestamp":"2026-07-23T10:00:22Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=990ms","latency_ms":990,"trace_id":"trace-0006"}
+{"timestamp":"2026-07-23T10:00:29Z","service":"checkout-api","severity":"error","message":"database timeout latency_ms=1425ms","latency_ms":1425,"trace_id":"trace-0007"}
+{"timestamp":"2026-07-23T10:01:20Z","service":"payment-worker","severity":"warning","message":"service restart requested","latency_ms":120,"trace_id":"trace-0008"}
+{"timestamp":"2026-07-23T10:01:30Z","service":"payment-worker","severity":"warning","message":"service restart completed","latency_ms":180,"trace_id":"trace-0009"}
+{"timestamp":"2026-07-23T10:02:35Z","service":"inventory-api","severity":"critical","message":"dependency unavailable for stock reservation","latency_ms":875,"trace_id":"trace-0010"}

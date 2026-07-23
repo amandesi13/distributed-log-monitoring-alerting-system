@@ -1,0 +1,4 @@
+services:
+  log-monitor:
+    build: .
+    command: ["analyze", "samples/service.log", "--format", "text"]
