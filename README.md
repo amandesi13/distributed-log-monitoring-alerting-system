@@ -1,5 +1,15 @@
 # Distributed Log Monitoring and Alerting System
 
+[![CI](https://github.com/amandesi13/distributed-log-monitoring-alerting-system/actions/workflows/ci.yml/badge.svg)](https://github.com/amandesi13/distributed-log-monitoring-alerting-system/actions/workflows/ci.yml)
+[![demo](https://github.com/amandesi13/distributed-log-monitoring-alerting-system/actions/workflows/pages.yml/badge.svg)](https://amandesi13.github.io/distributed-log-monitoring-alerting-system/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB)](https://www.python.org/)
+[![dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+**[Live demo](https://amandesi13.github.io/distributed-log-monitoring-alerting-system/)**: paste logs or simulate an incident and watch the alerts and timeline update. The real analyzer runs client-side on Pyodide (WebAssembly), so logs never leave the browser.
+
+[![Browser demo: alerts and per-service latency timeline](docs/demo.png)](https://amandesi13.github.io/distributed-log-monitoring-alerting-system/)
+
 A Python-based observability lab for collecting service logs, detecting operational anomalies, and raising clear alerts from noisy runtime signals.
 
 The project models the kind of troubleshooting workflow used in distributed Linux services: parse logs, group them by service, watch error and latency patterns, simulate failures, and emit actionable alerts that can be used locally, in Docker, or in Kubernetes.
@@ -96,3 +106,15 @@ k8s/
 ## Why This Project Matters
 
 Distributed systems often fail through patterns rather than single events: a few retries become a latency spike, a dependency starts returning errors, or a service stops sending heartbeats. This project demonstrates how structured parsing and deterministic anomaly detection can turn logs into practical operational signals.
+
+## Browser demo
+
+`web/` holds a static page that loads this package into [Pyodide](https://pyodide.org) and calls
+`web/bridge.py` (strings in, JSON out; covered by `tests/test_web_bridge.py`). Unparseable lines are
+reported with their line number and skipped. The `demo` workflow builds the site with
+`python web/build_site.py` and deploys it to GitHub Pages on every push to `main`.
+
+```bash
+python web/build_site.py _site
+python -m http.server -d _site 8000   # http://localhost:8000
+```

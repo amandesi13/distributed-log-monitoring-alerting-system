@@ -9,3 +9,4 @@ build/
 reports/
 *.log
 !samples/*.log
+_site/
