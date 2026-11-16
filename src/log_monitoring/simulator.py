@@ -22,14 +22,19 @@ def generate_log_file(path: str | Path, events: int = 100, seed: int = 7) -> Pat
             latency_ms = random.randint(40, 220)
             message = "request completed"
 
-            if service == "checkout-api" and 25 <= index <= 34:
+            # Incidents pin their own service: the round-robin above would put
+            # most of these indices on other services and the alerts never fire.
+            if 25 <= index <= 34:
+                service = "checkout-api"
                 severity = "error"
                 latency_ms = random.randint(950, 1500)
                 message = "database timeout latency_ms={}ms".format(latency_ms)
-            elif service == "payment-worker" and index in {45, 48, 51}:
+            elif index in {45, 48, 51}:
+                service = "payment-worker"
                 severity = "warning"
                 message = "service restart requested"
-            elif service == "inventory-api" and index == 70:
+            elif index == 70:
+                service = "inventory-api"
                 severity = "critical"
                 message = "dependency unavailable for stock reservation"
             elif index % 15 == 0:
