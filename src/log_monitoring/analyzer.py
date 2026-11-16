@@ -6,6 +6,14 @@ from statistics import mean
 
 from .models import Alert, AlertSeverity, LogEvent, MonitorConfig, Severity
 
+# Most urgent first. Sorting by the enum's string value put "low" before "medium".
+SEVERITY_RANK = {
+    AlertSeverity.CRITICAL: 3,
+    AlertSeverity.HIGH: 2,
+    AlertSeverity.MEDIUM: 1,
+    AlertSeverity.LOW: 0,
+}
+
 
 class LogAnalyzer:
     def __init__(self, config: MonitorConfig | None = None) -> None:
@@ -30,7 +38,7 @@ class LogAnalyzer:
             if heartbeat_alert:
                 alerts.append(heartbeat_alert)
 
-        return sorted(alerts, key=lambda alert: (alert.severity.value, alert.service, alert.title))
+        return sorted(alerts, key=lambda alert: (-SEVERITY_RANK[alert.severity], alert.service, alert.title))
 
     def _error_burst_alerts(self, service: str, events: list[LogEvent]) -> list[Alert]:
         alerts: list[Alert] = []
